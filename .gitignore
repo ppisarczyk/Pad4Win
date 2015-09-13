@@ -195,3 +195,10 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+*.bsc
+*.exp
+*.ipdb
+*.lib
+*.iobj
+Pad4Win/x64/SciLexer.dll
+Pad4Win/Win32/SciLexer.dll
