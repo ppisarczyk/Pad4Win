@@ -3,8 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pad4Win"
+        xmlns:sci="clr-namespace:Pad4Win.Scintilla"
         Title="Pad4Win" Height="350" Width="525">
     <Grid>
-        <local:Scintilla />
+        <sci:ScintillaBox Technology="DirectWrite" Text="héllo" />
     </Grid>
 </Window>

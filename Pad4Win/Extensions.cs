@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 
 namespace Pad4Win
@@ -221,6 +223,15 @@ namespace Pad4Win
                 return false;
 
             return true;
+        }
+
+        public static IntPtr ToUtf8(this string text)
+        {
+            if (text == null)
+                return IntPtr.Zero;
+
+            byte[] bytes = Encoding.UTF8.GetBytes(text);
+            return Marshal.AllocCoTaskMem(bytes.Length);
         }
     }
 }
