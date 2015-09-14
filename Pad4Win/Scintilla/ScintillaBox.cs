@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.IO.Compression;
@@ -11,7 +12,7 @@ namespace Pad4Win.Scintilla
 {
     public class ScintillaBox : HwndHost
     {
-        private StyleCollection _style;
+        private StyleCollection _styles;
 
         public static readonly DependencyProperty TechnologyProperty =
             DependencyProperty.Register("Technology", typeof(Technology), typeof(ScintillaBox),
@@ -21,11 +22,30 @@ namespace Pad4Win.Scintilla
             DependencyProperty.Register("Text", typeof(string), typeof(ScintillaBox),
             new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, AnyPropertyChanged));
 
+        public static readonly DependencyProperty LexerProperty =
+            DependencyProperty.Register("Lexer", typeof(Lexer), typeof(ScintillaBox),
+            new FrameworkPropertyMetadata(Lexer.Null, FrameworkPropertyMetadataOptions.AffectsRender, AnyPropertyChanged));
+
         public ScintillaBox()
         {
+            _styles = new StyleCollection(this);
+        }
+
+        public StyleCollection Styles
+        {
+            get
+            {
+                return _styles;
+            }
         }
 
         public IntPtr DirectPointer { get; private set; }
+
+        public Lexer Lexer
+        {
+            get { return (Lexer)GetValue(LexerProperty); }
+            set { SetValue(LexerProperty, value); }
+        }
 
         public Technology Technology
         {
@@ -65,6 +85,13 @@ namespace Pad4Win.Scintilla
                 return;
             }
 
+            if (e.Property.Name == LexerProperty.Name)
+            {
+                CallScintilla(SCI_SETLEXER, (int)e.NewValue);
+                return;
+            }
+
+
             if (e.Property.Name == TechnologyProperty.Name)
             {
                 Technology value = (Technology)e.NewValue;
@@ -78,7 +105,6 @@ namespace Pad4Win.Scintilla
         private const string ScintillaControlClassName = "Scintilla";
 
         private const int SC_CP_UTF8 = 65001;
-        private const int STYLE_DEFAULT = 32;
 
         private const int SCI_SETCODEPAGE = 2037;
         private const int SCI_STYLERESETDEFAULT = 2058;
@@ -86,6 +112,7 @@ namespace Pad4Win.Scintilla
         private const int SCI_GETDIRECTPOINTER = 2185;
         private const int SCI_SETTECHNOLOGY = 2630;
         private const int SCI_GETTECHNOLOGY = 2631;
+        private const int SCI_SETLEXER = 4001;
 
         [Flags]
         private enum WS_EX : uint
@@ -198,6 +225,11 @@ namespace Pad4Win.Scintilla
         public IntPtr CallScintilla(int iMessage, int wParam)
         {
             return CallScintilla(iMessage, new IntPtr(wParam));
+        }
+
+        public IntPtr CallScintilla(int iMessage, int wParam, int lParam)
+        {
+            return CallScintilla(iMessage, new IntPtr(wParam), new IntPtr(lParam));
         }
 
         public IntPtr CallScintilla(int iMessage, IntPtr wParam)

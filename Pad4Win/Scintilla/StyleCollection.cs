@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace Pad4Win.Scintilla
 {
-    public class StyleCollection : IReadOnlyList<Style>
+    public class StyleCollection : ObservableCollection<Style>
     {
-        internal const int STYLE_MAX = 255;
         private ScintillaBox _scintilla;
 
         internal StyleCollection(ScintillaBox scintilla)
@@ -13,33 +12,19 @@ namespace Pad4Win.Scintilla
             _scintilla = scintilla;
         }
 
-        public Style this[int index]
+        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
-            get
+            switch (e.Action)
             {
-                return new Style(_scintilla, index);
+                case NotifyCollectionChangedAction.Add:
+                    foreach (Style style in e.NewItems)
+                    {
+                        style._scintilla = _scintilla;
+                    }
+                    break;
             }
-        }
 
-        public int Count
-        {
-            get
-            {
-                return STYLE_MAX + 1;
-            }
-        }
-
-        public IEnumerator<Style> GetEnumerator()
-        {
-            for (int i = 0; i < Count; i++)
-            {
-                yield return this[i];
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
+            base.OnCollectionChanged(e);
         }
     }
 }

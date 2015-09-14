@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Scintilla\Lexer.cs" />
     <Compile Include="Scintilla\ScintillaBox.cs" />
     <Compile Include="Scintilla\Style.cs" />
     <Compile Include="Scintilla\StyleCollection.cs" />
