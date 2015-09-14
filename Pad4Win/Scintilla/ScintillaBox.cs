@@ -11,6 +11,8 @@ namespace Pad4Win.Scintilla
 {
     public class ScintillaBox : HwndHost
     {
+        private StyleCollection _style;
+
         public static readonly DependencyProperty TechnologyProperty =
             DependencyProperty.Register("Technology", typeof(Technology), typeof(ScintillaBox),
             new FrameworkPropertyMetadata(Technology.Default, FrameworkPropertyMetadataOptions.AffectsRender, AnyPropertyChanged));
@@ -66,22 +68,20 @@ namespace Pad4Win.Scintilla
             if (e.Property.Name == TechnologyProperty.Name)
             {
                 Technology value = (Technology)e.NewValue;
-                CallScintilla(SCI_SETTECHNOLOGY, (IntPtr)value);
+                CallScintilla(SCI_SETTECHNOLOGY, (int)value);
                 return;
             }
-        }
-
-        private static void TechnologyPropertyChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
-        {
-            ScintillaBox sb = (ScintillaBox)source;
-            Technology value = (Technology)e.NewValue;
-            sb.CallScintilla(SCI_SETTECHNOLOGY, (IntPtr)value);
         }
 
         private readonly static DateTime LexerDateTime = new DateTime(2015, 9, 13); // arbitrary
         private const string SciLexerDll = "SciLexer.dll";
         private const string ScintillaControlClassName = "Scintilla";
 
+        private const int SC_CP_UTF8 = 65001;
+        private const int STYLE_DEFAULT = 32;
+
+        private const int SCI_SETCODEPAGE = 2037;
+        private const int SCI_STYLERESETDEFAULT = 2058;
         private const int SCI_SETTEXT = 2181;
         private const int SCI_GETDIRECTPOINTER = 2185;
         private const int SCI_SETTECHNOLOGY = 2630;
@@ -195,6 +195,11 @@ namespace Pad4Win.Scintilla
             return CallScintilla(iMessage, IntPtr.Zero, IntPtr.Zero);
         }
 
+        public IntPtr CallScintilla(int iMessage, int wParam)
+        {
+            return CallScintilla(iMessage, new IntPtr(wParam));
+        }
+
         public IntPtr CallScintilla(int iMessage, IntPtr wParam)
         {
             return CallScintilla(iMessage, wParam, IntPtr.Zero);
@@ -218,7 +223,9 @@ namespace Pad4Win.Scintilla
                 throw new Win32Exception(Marshal.GetLastWin32Error());
 
             DirectPointer = SendMessage(hwnd, SCI_GETDIRECTPOINTER, IntPtr.Zero, IntPtr.Zero);
-            var technology = (Technology)CallScintilla(SCI_GETTECHNOLOGY);
+
+            // initialize various stuff
+            CallScintilla(SCI_SETCODEPAGE, SC_CP_UTF8);
 
             return new HandleRef(this, hwnd);
         }
@@ -227,6 +234,11 @@ namespace Pad4Win.Scintilla
         {
             DestroyWindow(hwnd.Handle);
             DirectPointer = IntPtr.Zero;
+        }
+
+        public void StyleResetDefault()
+        {
+            CallScintilla(SCI_STYLERESETDEFAULT);
         }
     }
 }
