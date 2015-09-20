@@ -18,12 +18,17 @@ namespace Pad4Win.Scintilla
         private const int SCI_STYLESETFONT = 2056;
         private const int SCI_STYLESETUNDERLINE = 2059;
         private const int SCI_STYLESETWEIGHT = 2063;
+        private const int SCI_STYLESETVISIBLE = 2074;
 
         internal ScintillaBox _scintilla;
 
         public static readonly DependencyProperty IndexProperty =
             DependencyProperty.Register("Index", typeof(int), typeof(Style),
             new FrameworkPropertyMetadata(STYLE_DEFAULT, FrameworkPropertyMetadataOptions.AffectsRender, AnyPropertyChanged));
+
+        public static readonly DependencyProperty IsVisibleProperty =
+            DependencyProperty.Register("IsVisible", typeof(bool), typeof(Style),
+            new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsRender, AnyPropertyChanged));
 
         public static readonly DependencyProperty FontFamilyProperty = TextElement.FontFamilyProperty.AddOwner(typeof(Style), new FrameworkPropertyMetadata(SystemFonts.MessageFontFamily, FrameworkPropertyMetadataOptions.Inherits | FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(AnyPropertyChanged)));
         public static readonly DependencyProperty FontSizeProperty = TextElement.FontSizeProperty.AddOwner(typeof(Style), new FrameworkPropertyMetadata(SystemFonts.MessageFontSize, FrameworkPropertyMetadataOptions.Inherits | FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(AnyPropertyChanged)));
@@ -37,6 +42,12 @@ namespace Pad4Win.Scintilla
         {
             get { return (int)GetValue(IndexProperty); }
             set { SetValue(IndexProperty, value); }
+        }
+
+        public bool IsVisible
+        {
+            get { return (bool)GetValue(IsVisibleProperty); }
+            set { SetValue(IsVisibleProperty, value); }
         }
 
         public double FontSize
@@ -150,16 +161,30 @@ namespace Pad4Win.Scintilla
 
             if (e.Property.Name == TextDecorationsProperty.Name)
             {
+                bool underline = false;
                 foreach (var td in TextDecorations)
                 {
                     if (td.Location == TextDecorationLocation.Underline)
                     {
+                        underline = true;
                         _scintilla.CallScintilla(SCI_STYLESETUNDERLINE, Index, 1);
                     }
                 }
+
+                if (!underline)
+                {
+                    _scintilla.CallScintilla(SCI_STYLESETUNDERLINE, Index, 0);
+                }
+                return;
             }
 
-            if (e.Property.Name == FontWeightProperty.Name)
+            if (e.Property.Name == IsVisibleProperty.Name)
+            {
+                _scintilla.CallScintilla(SCI_STYLESETVISIBLE, Index, (bool)e.NewValue ? 1 : 0);
+                return;
+            }
+
+            if (e.Property.Name == FontStyleProperty.Name)
             {
                 FontStyle s = (FontStyle)e.NewValue;
                 if (FontStyles.Italic.Equals(s))

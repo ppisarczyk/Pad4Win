@@ -6,7 +6,7 @@
     <Grid>
         <sci:ScintillaBox Technology="DirectWrite" Text="héllo">
             <sci:ScintillaBox.Styles>
-                <sci:Style Index="32" FontFamily="Consolas"  FontSize="20" Foreground="Red" Background="Blue" TextDecorations="Underline" />
+                <sci:Style Index="32" FontFamily="Consolas"  FontSize="20" Foreground="Red" IsVisible="False" Background="Blue" TextDecorations="Underline" />
             </sci:ScintillaBox.Styles>
         </sci:ScintillaBox>
     </Grid>
