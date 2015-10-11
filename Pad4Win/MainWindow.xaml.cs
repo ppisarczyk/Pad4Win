@@ -7,6 +7,17 @@ namespace Pad4Win
         public MainWindow()
         {
             InitializeComponent();
+            //Background = SystemColors.WindowColor
+        }
+
+        private void MenuExit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void MenuAbout_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
