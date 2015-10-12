@@ -109,6 +109,7 @@
     <Compile Include="SoftFluent.Windows\Utilities\DynamicObjectProperty.cs" />
     <Compile Include="SoftFluent.Windows\Utilities\Extensions.cs" />
     <Compile Include="Utf8String.cs" />
+    <Compile Include="WpfExtensions.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

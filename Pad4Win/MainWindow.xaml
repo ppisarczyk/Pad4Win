@@ -2,18 +2,19 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:sci="clr-namespace:Pad4Win.Scintilla"
-        Title="Pad4Win" Height="350" Width="525" ResizeMode="CanResizeWithGrip">
+        Title="Pad4Win" Height="350" Width="525" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="18" />
             <RowDefinition Height="*" />
             <RowDefinition Height="18" />
         </Grid.RowDefinitions>
-        <Menu Padding="0">
+        <Menu Padding="0" Name="MM">
             <MenuItem Header="_File">
-                <MenuItem Header="Load..." />
+                <MenuItem Header="_New" InputGestureText="Ctrl+N" />
+                <MenuItem Header="_Open..." InputGestureText="Ctrl+O" Click="MenuLoad_Click" />
                 <Separator />
-                <MenuItem Header="E_xit" Click="MenuExit_Click" />
+                <MenuItem Header="E_xit" Click="MenuExit_Click" InputGestureText="Alt+F4" />
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Header="_About" Click="MenuAbout_Click" />
