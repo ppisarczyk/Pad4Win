@@ -59,6 +59,14 @@ namespace Pad4Win.Scintilla
             set { SetValue(TextProperty, value); }
         }
 
+        public long TextLength
+        {
+            get
+            {
+                return CallScintilla(SCI_GETTEXTLENGTH, 0).ToInt64();
+            }
+        }
+
         private static void AnyPropertyChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
         {
             ScintillaBox sb = (ScintillaBox)source;
@@ -109,6 +117,7 @@ namespace Pad4Win.Scintilla
         private const int SCI_SETCODEPAGE = 2037;
         private const int SCI_STYLERESETDEFAULT = 2058;
         private const int SCI_SETTEXT = 2181;
+        private const int SCI_GETTEXTLENGTH = 2183;
         private const int SCI_GETDIRECTPOINTER = 2185;
         private const int SCI_SETTECHNOLOGY = 2630;
         private const int SCI_GETTECHNOLOGY = 2631;

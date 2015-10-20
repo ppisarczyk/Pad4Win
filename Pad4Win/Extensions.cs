@@ -233,5 +233,27 @@ namespace Pad4Win
             byte[] bytes = Encoding.UTF8.GetBytes(text);
             return Marshal.AllocCoTaskMem(bytes.Length);
         }
+
+        public static Encoding DetectEncoding(string filePath)
+        {
+            return DetectEncoding(filePath, null);
+        }
+
+        public static Encoding DetectEncoding(string filePath, Encoding defaultEncodingIfNoBom)
+        {
+            if (filePath == null)
+                throw new ArgumentOutOfRangeException("filePath");
+
+            if (defaultEncodingIfNoBom == null)
+            {
+                defaultEncodingIfNoBom = Encoding.Default;
+            }
+
+            using (StreamReader reader = new StreamReader(filePath, defaultEncodingIfNoBom, true))
+            {
+                reader.Peek();
+                return reader.CurrentEncoding;
+            }
+        }
     }
 }

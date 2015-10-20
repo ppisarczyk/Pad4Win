@@ -10,17 +10,26 @@
             <RowDefinition Height="18" />
         </Grid.RowDefinitions>
         <Menu Padding="0" Name="MM">
-            <MenuItem Header="_File">
+            <MenuItem Header="_File" SubmenuOpened="MenuFile_Opened">
                 <MenuItem Header="_New" InputGestureText="Ctrl+N" />
                 <MenuItem Header="_Open..." InputGestureText="Ctrl+O" Click="MenuLoad_Click" />
                 <Separator />
+                <MenuItem Header="_Properties..." Name="FilePropertiesMenu" InputGestureText="Ctrl+P" Click="MenuProperties_Click" />
+                <Separator />
                 <MenuItem Header="E_xit" Click="MenuExit_Click" InputGestureText="Alt+F4" />
+            </MenuItem>
+            <MenuItem Header="_Edit">
+            </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Header="_File Type..." Click="MenuFileType_Click" />
+            </MenuItem>
+            <MenuItem Header="_Options">
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Header="_About" Click="MenuAbout_Click" />
             </MenuItem>
         </Menu>
-        <sci:ScintillaBox Grid.Row="1" Technology="DirectWrite" Text="héllo">
+        <sci:ScintillaBox Grid.Row="1" Technology="DirectWrite" Text="héllo" x:Name="SB">
             <sci:ScintillaBox.Styles>
                 <sci:Style Index="32" FontFamily="Consolas"/>
             </sci:ScintillaBox.Styles>
