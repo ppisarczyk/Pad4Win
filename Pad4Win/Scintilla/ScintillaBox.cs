@@ -67,6 +67,61 @@ namespace Pad4Win.Scintilla
             }
         }
 
+        public void ClearAll()
+        {
+            CallScintilla(SCI_CLEARALL);
+        }
+
+        public void Clear()
+        {
+            CallScintilla(SCI_CLEAR);
+        }
+
+        public void Paste()
+        {
+            CallScintilla(SCI_PASTE);
+        }
+
+        public void Copy()
+        {
+            CallScintilla(SCI_COPY);
+        }
+
+        public void Cut()
+        {
+            CallScintilla(SCI_CUT);
+        }
+
+        public void Undo()
+        {
+            CallScintilla(SCI_UNDO);
+        }
+
+        public void Redo()
+        {
+            CallScintilla(SCI_REDO);
+        }
+
+        public void SelectAll()
+        {
+            CallScintilla(SCI_SELECTALL);
+        }
+
+        public bool CanRedo()
+        {
+            return CallScintilla(SCI_CANREDO) != IntPtr.Zero;
+        }
+
+        public bool CanUndo()
+        {
+            return CallScintilla(SCI_CANUNDO) != IntPtr.Zero;
+        }
+
+        public bool CanPaste()
+        {
+            return CallScintilla(SCI_CANPASTE) != IntPtr.Zero;
+        }
+
         private static void AnyPropertyChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
         {
             ScintillaBox sb = (ScintillaBox)source;
@@ -114,8 +169,19 @@ namespace Pad4Win.Scintilla
 
         private const int SC_CP_UTF8 = 65001;
 
+        private const int SCI_CLEARALL = 2004;
+        private const int SCI_REDO = 2011;
+        private const int SCI_SELECTALL = 2013;
+        private const int SCI_CANREDO = 2016;
         private const int SCI_SETCODEPAGE = 2037;
         private const int SCI_STYLERESETDEFAULT = 2058;
+        private const int SCI_CANPASTE = 2173;
+        private const int SCI_CANUNDO = 2174;
+        private const int SCI_UNDO = 2176;
+        private const int SCI_CUT = 2177;
+        private const int SCI_COPY = 2178;
+        private const int SCI_PASTE = 2179;
+        private const int SCI_CLEAR = 2180;
         private const int SCI_SETTEXT = 2181;
         private const int SCI_GETTEXTLENGTH = 2183;
         private const int SCI_GETDIRECTPOINTER = 2185;

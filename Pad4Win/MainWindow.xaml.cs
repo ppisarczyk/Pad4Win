@@ -9,6 +9,7 @@ namespace Pad4Win
     public partial class MainWindow : Window
     {
         private Encoding _encoding;
+        private string _currentFilePath;
 
         public MainWindow()
         {
@@ -49,6 +50,7 @@ namespace Pad4Win
             _encoding = Extensions.DetectEncoding(dlg.FileName);
             string text = File.ReadAllText(dlg.FileName, _encoding);
             SB.Text = text;
+            _currentFilePath = dlg.FileName;
         }
 
         private void MenuProperties_Click(object sender, RoutedEventArgs e)
@@ -79,7 +81,74 @@ namespace Pad4Win
 
         private void MenuFileType_Click(object sender, RoutedEventArgs e)
         {
+        }
 
+        private void MenuSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentFilePath == null)
+            {
+                MenuSaveAs_Click(sender, e);
+                return;
+            }
+        }
+
+        private void MenuSaveAs_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.RestoreDirectory = true;
+            dlg.CheckPathExists = true;
+            dlg.DereferenceLinks = true;
+            dlg.ValidateNames = true;
+            if (!dlg.ShowDialog(this).GetValueOrDefault())
+                return;
+
+            _currentFilePath = dlg.FileName;
+        }
+
+        private void MenuNew_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void MenuUndo_Click(object sender, RoutedEventArgs e)
+        {
+            SB.Undo();
+        }
+
+        private void MenuRedo_Click(object sender, RoutedEventArgs e)
+        {
+            SB.Redo();
+        }
+
+        private void MenuCut_Click(object sender, RoutedEventArgs e)
+        {
+            SB.Cut();
+        }
+
+        private void MenuCopy_Click(object sender, RoutedEventArgs e)
+        {
+            SB.Copy();
+        }
+
+        private void MenuPaste_Click(object sender, RoutedEventArgs e)
+        {
+            SB.Paste();
+        }
+
+        private void MenuClear_Click(object sender, RoutedEventArgs e)
+        {
+            SB.Clear();
+        }
+
+        private void MenuEdit_Opened(object sender, RoutedEventArgs e)
+        {
+            MenuUndo.IsEnabled = SB.CanUndo();
+            MenuRedo.IsEnabled = SB.CanRedo();
+            MenuPaste.IsEnabled = SB.CanPaste();
+        }
+
+        private void MenuSelectAll_Click(object sender, RoutedEventArgs e)
+        {
+            SB.SelectAll();
         }
     }
 }

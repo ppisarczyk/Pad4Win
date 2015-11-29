@@ -11,26 +11,28 @@
         </Grid.RowDefinitions>
         <Menu Padding="0" Name="MM">
             <MenuItem Header="_File" SubmenuOpened="MenuFile_Opened">
-                <MenuItem Header="_New" InputGestureText="Ctrl+N" />
+                <MenuItem Header="_New" InputGestureText="Ctrl+N" Click="MenuNew_Click" />
                 <MenuItem Header="_Open..." InputGestureText="Ctrl+O" Click="MenuLoad_Click" />
-                <MenuItem Header="_Open Well-Known..." InputGestureText="Ctrl+K" />
-                <MenuItem Header="_Save" InputGestureText="Ctrl+S" />
-                <MenuItem Header="Save _As..." InputGestureText="F6" />
+                <MenuItem Header="_Save" InputGestureText="Ctrl+S" Click="MenuSave_Click" />
+                <MenuItem Header="Save _As..." InputGestureText="F6" Click="MenuSaveAs_Click" />
+                <Separator />
+                <MenuItem Header="Open _Recent..." />
+                <MenuItem Header="Open _Well-Known..." InputGestureText="Ctrl+K" />
                 <Separator />
                 <MenuItem Header="_Properties..." Name="FilePropertiesMenu" InputGestureText="Ctrl+P" Click="MenuProperties_Click" />
                 <Separator />
                 <MenuItem Header="E_xit" Click="MenuExit_Click" InputGestureText="Alt+F4" />
             </MenuItem>
-            <MenuItem Header="_Edit">
-                <MenuItem Header="_Undo" InputGestureText="Ctrl+Z" />
-                <MenuItem Header="_Redo" InputGestureText="Ctrl+Y" />
+            <MenuItem Header="_Edit" SubmenuOpened="MenuEdit_Opened">
+                <MenuItem Header="_Undo" Name="MenuUndo" InputGestureText="Ctrl+Z" Click="MenuUndo_Click" />
+                <MenuItem Header="_Redo" Name="MenuRedo" InputGestureText="Ctrl+Y" Click="MenuRedo_Click" />
                 <Separator />
-                <MenuItem Header="Cu_t" InputGestureText="Ctrl+X" />
-                <MenuItem Header="_Copy" InputGestureText="Ctrl+C" />
-                <MenuItem Header="_Paste" InputGestureText="Ctrl+V" />
+                <MenuItem Header="Cu_t" InputGestureText="Ctrl+X" Click="MenuCut_Click" />
+                <MenuItem Header="_Copy" InputGestureText="Ctrl+C" Click="MenuCopy_Click" />
+                <MenuItem Header="_Paste" Name="MenuPaste" InputGestureText="Ctrl+V" Click="MenuPaste_Click" />
                 <MenuItem Header="Paste S_pecial..." />
-                <MenuItem Header="Clear" InputGestureText="Del" />
-                <MenuItem Header="_Select All" InputGestureText="Alt+A" />
+                <MenuItem Header="Clear" InputGestureText="Del" Click="MenuClear_Click" />
+                <MenuItem Header="_Select All" InputGestureText="Alt+A" Click="MenuSelectAll_Click" />
                 <Separator />
                 <MenuItem Header="_Find..." InputGestureText="Alt+F" />
                 <MenuItem Header="Find Ne_xt" InputGestureText="F3" />
