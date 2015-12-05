@@ -1,14 +1,16 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.Win32;
+using SoftFluent.Windows;
 
 namespace Pad4Win
 {
     public partial class MainWindow : Window
     {
-        private Encoding _encoding;
+        private Encoding _encoding = Encoding.UTF8;
         private string _currentFilePath;
 
         public MainWindow()
@@ -55,28 +57,29 @@ namespace Pad4Win
 
         private void MenuProperties_Click(object sender, RoutedEventArgs e)
         {
-            if (_encoding == null)
-                return;
-
             var props = new Properties();
-            props.Encoding = _encoding.WebName;
+            props.Encoding = _encoding;
             props.TextSize = SB.TextLength;
             PropertiesWindow dlg = new PropertiesWindow(props);
             dlg.PG.GroupByCategory = false;
             dlg.PG.IsReadOnly = true;
             dlg.Owner = this;
-            dlg.ShowDialog();
+            if (!dlg.ShowDialog().GetValueOrDefault())
+                return;
+
+            _encoding = props.Encoding;
         }
 
         private class Properties
         {
-            public string Encoding { get; set; }
+            [PropertyGridOptions(EditorDataTemplateResourceKey = "EncodingEditor")]
+            public Encoding Encoding { get; set; }
             public long TextSize { get; set; }
         }
 
         private void MenuFile_Opened(object sender, RoutedEventArgs e)
         {
-            FilePropertiesMenu.IsEnabled = _encoding != null;
+            //FilePropertiesMenu.IsEnabled = _encoding != null;
         }
 
         private void MenuFileType_Click(object sender, RoutedEventArgs e)
@@ -102,6 +105,7 @@ namespace Pad4Win
             if (!dlg.ShowDialog(this).GetValueOrDefault())
                 return;
 
+            File.WriteAllText(dlg.FileName, SB.Text, _encoding);
             _currentFilePath = dlg.FileName;
         }
 

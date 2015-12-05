@@ -8,6 +8,14 @@
         mc:Ignorable="d"
         Title="Properties" Height="300" Width="300" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
         <sfw:PropertyGrid x:Name="PG" />
+        <Grid Grid.Row="1">
+            <Button Name="Ok" IsDefault="True" Content="OK" Margin="0,5,90,5" HorizontalAlignment="Right" Width="75" Click="OK_Click" />
+            <Button Name="Cancel" Content="Cancel" Margin="0,5,10,5" HorizontalAlignment="Right" Width="75" Click="Cancel_Click" />
+        </Grid>
     </Grid>
 </Window>

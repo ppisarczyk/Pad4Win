@@ -61,6 +61,7 @@
     <Compile Include="AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EncodingSource.cs" />
     <Compile Include="PropertiesWindow.xaml.cs">
       <DependentUpon>PropertiesWindow.xaml</DependentUpon>
     </Compile>
@@ -69,7 +70,9 @@
     <Compile Include="Scintilla\Style.cs" />
     <Compile Include="Scintilla\StyleCollection.cs" />
     <Compile Include="Scintilla\Technology.cs" />
+    <Compile Include="SoftFluent.Windows\ActivatorService.cs" />
     <Compile Include="SoftFluent.Windows\AutoObject.cs" />
+    <Compile Include="SoftFluent.Windows\BaseActivator.cs" />
     <Compile Include="SoftFluent.Windows\BaseConverter.cs" />
     <Compile Include="SoftFluent.Windows\BaseDecamelizer.cs" />
     <Compile Include="SoftFluent.Windows\BaseTypeResolver.cs" />
@@ -82,6 +85,7 @@
     <Compile Include="SoftFluent.Windows\DecamelizeTextOptions.cs" />
     <Compile Include="SoftFluent.Windows\Diagnostics\Tracing.cs" />
     <Compile Include="SoftFluent.Windows\EnumerableConverter.cs" />
+    <Compile Include="SoftFluent.Windows\IActivator.cs" />
     <Compile Include="SoftFluent.Windows\IConverter.cs" />
     <Compile Include="SoftFluent.Windows\IDecamelizer.cs" />
     <Compile Include="SoftFluent.Windows\IPropertyGridCommandHandler.cs" />
@@ -114,6 +118,7 @@
     <Compile Include="SoftFluent.Windows\Utilities\DynamicObject.cs" />
     <Compile Include="SoftFluent.Windows\Utilities\DynamicObjectProperty.cs" />
     <Compile Include="SoftFluent.Windows\Utilities\Extensions.cs" />
+    <Compile Include="UTF8EncodingNoBom.cs" />
     <Compile Include="Utf8String.cs" />
     <Compile Include="WpfExtensions.cs" />
     <Page Include="AboutWindow.xaml">

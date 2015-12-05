@@ -24,8 +24,8 @@ namespace SoftFluent.Windows
 
             DataProvider = dataProvider;
             PropertyType = typeof(object);
-            Attributes = new DynamicObject();
-            TypeAttributes = new DynamicObject();
+            Attributes = dataProvider.CreateDynamicObject();
+            TypeAttributes = dataProvider.CreateDynamicObject();
         }
 
         public override string ToString()
@@ -75,7 +75,7 @@ namespace SoftFluent.Windows
             DataProvider.Grid.UpdateCellBindings(this, childName, where, action);
         }
 
-        public static bool IsExtendedEnum(Type type, out Type enumType, out bool nullable)
+        public static bool IsEnumOrNullableEnum(Type type, out Type enumType, out bool nullable)
         {
             if (type == null)
                 throw new ArgumentNullException("type");
@@ -124,6 +124,7 @@ namespace SoftFluent.Windows
         public virtual Type PropertyType { get { return GetProperty<Type>(); } set { SetProperty(value); } }
         public virtual string Name { get { return GetProperty<string>(); } set { SetProperty(value); } }
         public virtual bool IsError { get { return GetProperty<bool>(); } set { SetProperty(value); } }
+        public virtual bool IsEnum { get { return GetProperty<bool>(); } set { SetProperty(value); } }
         public virtual bool IsFlagsEnum { get { return GetProperty<bool>(); } set { SetProperty(value); } }
         public virtual string Category { get { return GetProperty<string>(); } set { SetProperty(value); } }
         public virtual string DisplayName { get { return GetProperty<string>(); } set { SetProperty(value); } }
@@ -194,14 +195,20 @@ namespace SoftFluent.Windows
         {
             get
             {
+                bool def = false;
                 if (DataProvider != null && DataProvider.Grid != null && DataProvider.Grid.IsReadOnly)
-                    return true;
+                {
+                    def = true;
+                }
 
-                return GetProperty<bool>();
+                return GetProperty(def);
             }
             set
             {
-                SetProperty(value);
+                if (SetProperty(value))
+                {
+                    OnPropertyChanged("IsReadWrite");
+                }
             }
         }
 
@@ -414,9 +421,7 @@ namespace SoftFluent.Windows
             try
             {
                 object value = Descriptor.GetValue(DataProvider.Data);
-                //Logger.TraceWithMethodName("propB " + Name + "=" + value);
                 SetInternalValue(value);
-                //Logger.TraceWithMethodName("propA " + Name + "=" + Value);
             }
             catch (Exception e)
             {
