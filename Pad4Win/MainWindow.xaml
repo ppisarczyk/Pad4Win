@@ -50,7 +50,7 @@
                 <MenuItem Header="_About" Click="MenuAbout_Click" />
             </MenuItem>
         </Menu>
-        <sci:ScintillaBox Grid.Row="1" Technology="DirectWrite" Text="héllo" x:Name="SB">
+        <sci:ScintillaBox Grid.Row="1" Technology="DirectWrite" x:Name="SB">
             <sci:ScintillaBox.Styles>
                 <sci:Style Index="32" FontFamily="Consolas"/>
             </sci:ScintillaBox.Styles>

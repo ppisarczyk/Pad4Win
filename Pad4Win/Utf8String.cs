@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Pad4Win
 {
-    public class Utf8String : IDisposable
+    public sealed class Utf8String : IDisposable
     {
         public Utf8String(string text)
         {
